@@ -1,0 +1,254 @@
+{
+  "browser": "Chrome headless",
+  "checks": [
+    {
+      "name": "Inicio comprador renderiza productos",
+      "passed": true
+    },
+    {
+      "name": "Recursos locales cargan",
+      "passed": true
+    },
+    {
+      "name": "Navegación superior sin barra lateral",
+      "passed": true
+    },
+    {
+      "name": "Catálogo muestra solo cosechas publicadas",
+      "passed": true
+    },
+    {
+      "name": "Búsqueda filtra",
+      "passed": true
+    },
+    {
+      "name": "Categoría filtra",
+      "passed": true
+    },
+    {
+      "name": "Nombre completo oculto antes de conectar",
+      "passed": true
+    },
+    {
+      "name": "Desbloqueo consume exactamente un crédito",
+      "passed": true
+    },
+    {
+      "name": "Repetir conexión no consume otro crédito",
+      "passed": true
+    },
+    {
+      "name": "Oferta se registra sin consumir crédito",
+      "passed": true
+    },
+    {
+      "name": "Chat guarda mensaje con conexión habilitada",
+      "passed": true
+    },
+    {
+      "name": "Chat y WhatsApp visibles en navegación del proveedor",
+      "passed": true
+    },
+    {
+      "name": "Publicación nueva requiere revisión",
+      "passed": true
+    },
+    {
+      "name": "Administración aprueba publicación",
+      "passed": true
+    },
+    {
+      "name": "Proveedor solicita cierre",
+      "passed": true
+    },
+    {
+      "name": "Comprador confirma",
+      "passed": true
+    },
+    {
+      "name": "Proveedor confirma cierre final",
+      "passed": true
+    },
+    {
+      "name": "Ingreso confirmado antes de liberación",
+      "passed": true
+    },
+    {
+      "name": "Pago se libera después de confirmar ingreso",
+      "passed": true
+    },
+    {
+      "name": "Calificación al finalizar",
+      "passed": true
+    },
+    {
+      "name": "Responder oferta no duplica registros",
+      "passed": true
+    },
+    {
+      "name": "Perfil proveedor independiente del comprador",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: comprador/inicio",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: comprador/cosecha",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: comprador/industrial",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: comprador/guardados",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: comprador/detalle/9000",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: comprador/tratos",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: comprador/trato/9223",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: comprador/chat",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: comprador/precios",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: comprador/perfil",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: comprador/planes",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: comprador/login",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: proveedor/inicio",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: proveedor/publicaciones",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: proveedor/produccion",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: proveedor/ofertas",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: proveedor/publicar",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: proveedor/whatsapp",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: proveedor/chat",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: proveedor/movimientos",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: proveedor/perfil",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: proveedor/planes",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: admin/inicio",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: admin/revision",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: admin/usuarios",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: admin/custodia",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde móvil: admin/movimientos",
+      "passed": true
+    },
+    {
+      "name": "Inicio proveedor con tres tareas claras y sin tablas",
+      "passed": true
+    },
+    {
+      "name": "Menú secundario accesible",
+      "passed": true
+    },
+    {
+      "name": "Navegación secundaria conserva movimientos",
+      "passed": true
+    },
+    {
+      "name": "Acuerdo externo sin comisión",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde 320px: inicio",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde 320px: cosecha",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde 320px: detalle/9000",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde 320px: perfil",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde 320px: planes",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde 320px: precios",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde 320px: chat",
+      "passed": true
+    },
+    {
+      "name": "Sin desborde 320px: trato/9223",
+      "passed": true
+    },
+    {
+      "name": "Sin errores JavaScript en navegador",
+      "passed": true
+    }
+  ],
+  "errors": []
+}
