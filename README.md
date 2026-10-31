@@ -24,7 +24,7 @@ La demo ofrece **Ver recorrido automático** con pausa, anterior/siguiente, velo
 ## Estructura
 
 ```text
-apps/landing/             Web comercial
+landing/             Web comercial
 apps/frontend/            Entrada del portal real
 apps/demo/                Entrada del tutorial y exploración de ejemplo
 packages/portal/src/live/ Conexión al servicio, ingreso y pantallas reales
@@ -48,7 +48,7 @@ npm.cmd run package:demo
 backend/.venv/Scripts/python.exe -m pytest backend/tests --basetemp=.local/pytest-current
 ```
 
-`build:landing` genera `apps/landing/dist` con `/portal/` y `/demo/`. `package:demo` produce `releases/Agrovio-Portal-Netlify.zip` para publicar solo el tutorial/demo. El landing apunta al portal y su botón flotante abre la demo. URLs separadas configurables con `apps/landing/.env.example`.
+`build:landing` genera `landing/dist` con `/portal/` y `/demo/`. `package:demo` produce `releases/Agrovio-Portal-Netlify.zip` para publicar solo el tutorial/demo. El landing apunta al portal y su botón flotante abre la demo. URLs separadas configurables con `landing/.env.example`.
 
 Para que el portal publicado funcione, también hay que desplegar Python y configurar el acceso a `/api` y `/media`; en local Vite ya los redirige al puerto 8000. No se han configurado credenciales ni despliegues de producción.
 
@@ -60,4 +60,12 @@ Consultar [pendientes](docs/negocio/PENDIENTES.md), [contrato API](docs/arquitec
 
 Para el despliegue conjunto de Netlify, se puede definir `API_PROXY_URL` con la URL HTTPS del servicio Python antes de compilar. Se generan reglas `/api` y `/media` hacia ese servicio; configurar `COOKIE_SECURE=true` y CORS con el dominio público. Esto no despliega Python automáticamente.
 
-Atajo de arranque: `npm.cmd run dev:backend` inicia Python en 8000; en otras terminales, `npm.cmd run dev:frontend`, `npm.cmd run dev:demo` y `npm.cmd run dev:landing`. `npm run dev` abre ahora el frontend como aplicación principal.
+Atajo de arranque: `npm.cmd run dev:backend` inicia Python en 8000; en otras terminales, `npm.cmd run dev:frontend`, `npm.cmd run dev:demo` y `npm.cmd run dev:landing`. `npm run dev` inicia el conjunto con el landing como entrada principal.
+
+## Landing activo restaurado (31/10/2026)
+
+El código proporcionado en `landing/` es el landing activo. Sus páginas y recursos se conservaron; solo se conectaron los CTA de ingreso y se añadió el botón flotante de demo.
+
+`npm.cmd run dev` inicia landing (5173), portal (5175), demo (5174) y Python (8000), reutilizando los que ya estén abiertos. Abre http://127.0.0.1:5173. Para trabajar solo en el landing: `npm.cmd run dev:landing`. El build conjunto sigue siendo `npm.cmd run build:landing`; publicar `landing/dist`.
+
+El backend no se despliega automáticamente al publicar archivos estáticos.

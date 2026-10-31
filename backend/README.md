@@ -26,7 +26,7 @@ $env:AGROVIO_DEV_PASSWORD = 'elige-una-clave-local-de-10-caracteres-o-mas'
 backend/.venv/Scripts/python.exe -m app.bootstrap --development
 ```
 
-Ejecutar el segundo comando desde `backend`, o definir `$env:PYTHONPATH = (Join-Path (Get-Location) 'backend')` si se ejecuta desde la raíz. Se crean `admin@agrovio.test`, `comprador@agrovio.test` y `proveedor@agrovio.test` con esa contraseña. Las cuotas 30 y 8 son solo de pruebas. No usar estas cuentas ni contraseñas en producción. La administración puede asignar planes manuales desde Usuarios.
+Ejecutar el segundo comando desde `backend`, o definir `$env:PYTHONPATH = (Join-Path (Get-Location) 'backend')` si se ejecuta desde la raíz. Se crean `admin@demo.agrovio.pe`, `bruno@demo.agrovio.pe` (comprador) y `carlos@demo.agrovio.pe` (proveedor)` con esa contraseña. Las cuotas 30 y 8 son solo de pruebas. No usar estas cuentas ni contraseñas en producción. La administración puede asignar planes manuales desde Usuarios.
 
 ## Implementado
 

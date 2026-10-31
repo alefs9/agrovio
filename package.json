@@ -4,11 +4,13 @@
   "version": "0.1.0",
   "type": "module",
   "workspaces": [
-    "apps/*",
+    "landing",
+    "apps/frontend",
+    "apps/demo",
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev:frontend",
+    "dev": "node scripts/dev-all.mjs",
     "dev:landing": "npm run dev -w @agrovio/landing",
     "dev:demo": "npm run dev -w @agrovio/demo",
     "dev:frontend": "npm run dev -w @agrovio/frontend",
@@ -19,7 +21,8 @@
     "package:demo": "node scripts/package-demo.mjs",
     "preview:demo": "npm run preview -w @agrovio/demo",
     "build:landing": "npm run build",
-    "dev:backend": "node scripts/dev-backend.mjs"
+    "dev:backend": "node scripts/dev-backend.mjs",
+    "dev:all": "npm run dev"
   },
   "engines": {
     "node": ">=24.0.0",
