@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev:demo",
+    "dev": "npm run dev:frontend",
     "dev:landing": "npm run dev -w @agrovio/landing",
     "dev:demo": "npm run dev -w @agrovio/demo",
     "dev:frontend": "npm run dev -w @agrovio/frontend",
@@ -18,7 +18,8 @@
     "test": "node --experimental-strip-types --test packages/domain/tests/*.test.ts",
     "package:demo": "node scripts/package-demo.mjs",
     "preview:demo": "npm run preview -w @agrovio/demo",
-    "build:landing": "npm run build"
+    "build:landing": "npm run build",
+    "dev:backend": "node scripts/dev-backend.mjs"
   },
   "engines": {
     "node": ">=24.0.0",

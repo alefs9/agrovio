@@ -1,0 +1,4 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';
+import {createTour} from '../../portal/src/tutorial/scenario.ts';
+test('el tutorial genera una operación coherente de extremo a extremo',()=>{const frames=createTour();const final=frames.at(-1)!.state;const deal=final.deals.find(d=>d.id==='GUIA-OFERTA')!;assert.equal(deal.quantity,1000);assert.equal(deal.price,2.3);assert.equal(deal.step,3);assert.equal(deal.payment,2);assert.equal(deal.rating,5);assert.equal(final.credits,27);assert.equal(final.messages.filter(m=>m.listingId==='GUIA-PRODUCTO').length,2);assert.equal(final.listings.find(p=>p.id==='GUIA-WHATSAPP')!.status,'En revisión');});
+test('las escenas anteriores no se modifican al avanzar',()=>{const frames=createTour();assert.equal(frames[0].state.listings.length,4);assert.equal(frames[0].state.credits,28);assert.equal(frames[0].state.role,'proveedor');assert.equal(frames.at(-1)!.state.listings.length,6);});

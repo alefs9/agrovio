@@ -1,72 +1,63 @@
-# Agrovio · Repositorio de trabajo
+# Agrovio · Landing, portal y tutorial
 
-Monorepositorio con landing, portal React, demo autónoma y base de backend Python. El material original se conserva como referencia. No se ha hecho push ni se ha desplegado una versión productiva.
+## Tres aplicaciones diferentes
 
-```text
-apps/
-  landing/          Landing original React + TypeScript + Vite
-  demo/             Portal React con todos los procesos simulados
-  frontend/         Base del portal de producción; aún usa datos simulados
-packages/
-  portal/           Pantallas React compartidas entre demo y frontend
-  domain/           Tipos, datos iniciales y reglas del simulador con pruebas
-backend/            Python / FastAPI: health, estado y estructura para ampliar
-design/maquetado/    Capturas originales del cliente
-docs/
-  arquitectura/     Decisiones y contrato inicial de API
-  gestion/          Backlog, responsabilidades y criterios de entrega
-  referencias/      Documentos e imágenes previos, conservados
-archive/            Demos HTML y configuraciones anteriores, sin desarrollo activo
-scripts/            Empaquetado de la demo
-```
-
-## Arranque
-
-Node 24+, npm 10+. Ejecutar desde la raíz:
+| Aplicación | Función | Comando local | Dirección |
+| --- | --- | --- | --- |
+| Landing | Página comercial y acceso a portal/demo | `npm.cmd run dev:landing` | http://localhost:5173 |
+| Frontend | Portal con inicio de sesión y datos del servidor | `npm.cmd run dev:frontend` | http://localhost:5175 |
+| Demo | Tutorial automático con datos de ejemplo aislados | `npm.cmd run dev:demo` | http://localhost:5174 |
+| Backend | API Python/FastAPI y SQLite | ver abajo | http://127.0.0.1:8000 |
 
 ```powershell
+cd C:\Users\Alex\agrovio
 npm.cmd install
-npm.cmd run dev:landing   # http://localhost:5173
-npm.cmd run dev:demo      # http://localhost:5174
-npm.cmd run dev:frontend  # http://localhost:5175
+backend/.venv/Scripts/python.exe -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000 --reload
 ```
 
-Los comandos anteriores inician aplicaciones distintas; usar una terminal por aplicación. `npm run dev` inicia la demo por defecto. La base Python se instala y ejecuta como indica [backend/README.md](backend/README.md).
+Abrir otra terminal para cada aplicación React que se vaya a utilizar. Node 24+. Para instalar Python y crear cuentas locales, ver [backend/README.md](backend/README.md).
+
+El frontend ya no tiene selector de rol ni saldo inventado: requiere iniciar sesión con una cuenta de comprador, proveedor o administrador. No usa localStorage como base de negocio. Si el servicio no está disponible, informa del problema en lugar de sustituir los datos por una simulación.
+
+La demo ofrece **Ver recorrido automático** con pausa, anterior/siguiente, velocidad y repetición. Publica, revisa, negocia, conecta, conversa, confirma, registra pagos y muestra WhatsApp. Al terminar o salir restaura el estado y la pantalla anteriores. Las escenas no se escriben en la base del portal ni en el almacenamiento del recorrido manual.
+
+## Estructura
+
+```text
+apps/landing/             Web comercial
+apps/frontend/            Entrada del portal real
+apps/demo/                Entrada del tutorial y exploración de ejemplo
+packages/portal/src/live/ Conexión al servicio, ingreso y pantallas reales
+packages/portal/src/tutorial/ Escenas y reproductor automático
+packages/portal/src/features/ Pantallas compartidas
+packages/domain/          Tipos y reglas del simulador
+backend/app/              Persistencia, seguridad, negocio y rutas
+design/maquetado/          Capturas originales
+docs/negocio/             Reglas y decisiones pendientes
+docs/gestion/             Organización y tareas del equipo
+archive/                  Referencias antiguas, no aplicaciones activas
+```
+
+## Compilar, probar y publicar
 
 ```powershell
 npm.cmd test
 npm.cmd run typecheck
-npm.cmd run build
+npm.cmd run build:landing
 npm.cmd run package:demo
+backend/.venv/Scripts/python.exe -m pytest backend/tests --basetemp=.local/pytest-current
 ```
 
-`package:demo` genera `releases/Agrovio-Portal-Netlify.zip` con el build React y `index.html` en la raíz del ZIP. También deja `apps/demo/dist` listo para arrastrar a Netlify. No subir `apps/demo/src` ni la raíz de todo este repositorio como si fuera el build.
+`build:landing` genera `apps/landing/dist` con `/portal/` y `/demo/`. `package:demo` produce `releases/Agrovio-Portal-Netlify.zip` para publicar solo el tutorial/demo. El landing apunta al portal y su botón flotante abre la demo. URLs separadas configurables con `apps/landing/.env.example`.
 
-## Qué funciona en la demo
+Para que el portal publicado funcione, también hay que desplegar Python y configurar el acceso a `/api` y `/media`; en local Vite ya los redirige al puerto 8000. No se han configurado credenciales ni despliegues de producción.
 
-Cambiar entre comprador, proveedor y administrador sin credenciales reales. Productos, fotos locales, filtros, guardados, ofertas y contraofertas, desbloqueo de contacto, chat compartido, publicaciones en revisión, tres confirmaciones del trato, pagos secuenciales, acuerdo externo, calificación, CSV y bot guiado de WhatsApp simulado. Los cambios se conservan en el navegador y pueden reiniciarse.
+## Estado del negocio
 
-1. Proveedor crea un producto desde la web o desde el bot guiado.
-2. Administrador aprueba; comprador lo encuentra en el mercado.
-3. Comprador ofrece; proveedor acepta o contraoferta; comprador puede aceptar la contraoferta.
-4. La oferta aceptada genera un trato con su precio y volumen reales de la simulación.
-5. Proveedor solicita cierre, comprador confirma y proveedor confirma al final.
-6. Administrador confirma ingreso y después registra liberación. Comprador o proveedor califica.
+El núcleo del portal persiste cuentas, planes manuales, publicaciones, revisiones, créditos, conexiones, ofertas, tratos, mensajes, pagos manuales y calificaciones. WhatsApp cuenta con un motor guiado persistente que puede usarse en la web; el canal externo necesita proveedor y vínculo verificado. IziPay y las transferencias automáticas no se habilitan sin definición y credenciales.
 
-El chat del comprador requiere conexión de esa publicación. El proveedor ve los mensajes del comprador al cambiar de perfil. Cada publicación nueva usa un cupo y entra a revisión; cancelar no devuelve cupo. Las fotos se guardan como datos locales, máximo 1 MB por imagen en la demo. Al llenar localStorage se avisa y el recorrido continúa en memoria.
+Consultar [pendientes](docs/negocio/PENDIENTES.md), [contrato API](docs/arquitectura/CONTRATO-API.md), [reglas](docs/negocio/REGLAS.md) y [backlog](docs/gestion/BACKLOG.md). Las cuotas y políticas todavía no aprobadas están identificadas; no se consideran confirmadas por existir una implementación provisional.
 
-## Límites explícitos
+Para el despliegue conjunto de Netlify, se puede definir `API_PROXY_URL` con la URL HTTPS del servicio Python antes de compilar. Se generan reglas `/api` y `/media` hacia ese servicio; configurar `COOKIE_SECURE=true` y CORS con el dominio público. Esto no despliega Python automáticamente.
 
-Todo se simula en `packages/domain`. No hay autenticación, envíos a WhatsApp, IziPay, transferencias bancarias, base de datos ni conexiones externas en la demo. El ciclo de créditos se renueva mediante un botón de prueba; no hay scheduler. El histórico se deriva de tratos cerrados de esta sesión; sin cotizaciones externas. Los estados de usuario no constituyen seguridad real.
-
-`apps/frontend` comparte las pantallas para evitar duplicación, pero muestra una advertencia de entorno de desarrollo: todavía no consume la API. No debe desplegarse como producto terminado. El backend solo publica health y estado; sus módulos de negocio se implementarán con el backlog.
-
-## Empezar a repartir trabajo
-
-Consultar [BACKLOG](docs/gestion/BACKLOG.md), [responsabilidades](docs/gestion/EQUIPO.md), [arquitectura](docs/arquitectura/ESTRUCTURA.md) y [contrato inicial](docs/arquitectura/CONTRATO-API.md). Las asignaciones son propuestas para tres personas; no se han creado issues ni asignado personas reales.
-
-## Enlaces desde el landing
-
-En local: Ingresar lleva al frontend en el puerto 5175; el botón flotante Ver demo abre el puerto 5174. Ejecutar los tres dev servers para recorrer los enlaces.
-
-Para publicar todo en un mismo sitio: `npm run build:landing`, publicar `apps/landing/dist`. Incluye `/portal/` y `/demo/`; no necesita puertos locales. En Netlify configurar comando `npm run build:landing` y directorio `apps/landing/dist`. Para sitios separados, definir `VITE_FRONTEND_URL` y `VITE_DEMO_URL` al compilar el landing. Ver `apps/landing/.env.example`.
+Atajo de arranque: `npm.cmd run dev:backend` inicia Python en 8000; en otras terminales, `npm.cmd run dev:frontend`, `npm.cmd run dev:demo` y `npm.cmd run dev:landing`. `npm run dev` abre ahora el frontend como aplicación principal.

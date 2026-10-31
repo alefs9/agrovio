@@ -1,27 +1,23 @@
-# Verificación del arranque
+# Verificación · 31/10/2026
 
-## Ejecutar
+## Componentes diferentes
 
-- `npm test`: reglas puras del simulador, sin servicios externos.
-- `npm run typecheck`: TypeScript de las tres aplicaciones.
-- `npm run build`: landing, demo y frontend por separado.
-- `backend/.venv/Scripts/python.exe -m pytest backend/tests`: health y estado de la base Python.
+La demo ejecuta un tutorial aislado. El frontend inicia sesión y llama al servicio Python, sin fallback a datos simulados. El servicio utiliza una base SQLite y archivos de imágenes propios.
 
-El backend se verificó con Python 3.12 instalado de forma local en `.local/python` y su entorno en `backend/.venv`; no es necesario sustituir el Python del sistema. Para otra máquina, crear su propio entorno con Python 3.10+.
+## Comandos
 
-## Verificación de navegador
+- npm test: reglas del simulador y coherencia de todas las escenas del tutorial.
+- npm run typecheck y npm run build:landing: tres aplicaciones React.
+- backend/.venv/Scripts/python.exe -m pytest backend/tests --basetemp=.local/pytest-current: permisos, persistencia, privacidad y transiciones sobre bases temporales.
+- scripts/verify-separated.mjs: Chrome 9335 y preview del landing en 5180; exige AGROVIO_QA_PASSWORD para cuentas de prueba locales sobre una base separada.
 
-El script `scripts/verify-demo.mjs` usa el protocolo de depuración de un Chrome local, abierto por el desarrollador en el puerto 9335, contra `npm run preview:demo` (5174). No instala extensiones ni usa cuentas reales. Genera resultados y capturas bajo `.local/qa`, ignorado por Git. Nunca abrir la depuración remota a la red.
+## Pruebas de navegador realizadas
 
-Los resultados comprueban simulaciones. No validan producción, autenticación ni integraciones externas.
+31 comprobaciones correctas: reproducción automática, pausa, navegación, prellenado de formularios, estado previo intacto al cerrar, controles móviles, portal sin selector de rol, cookie HttpOnly, creación/aprobación de publicación, contacto protegido, mensajes entre cuentas, oferta y trato, tres confirmaciones, ingreso/liberación y publicación asistida persistente. Sin excepciones JavaScript. Capturas y reporte en .local/qa-separated.
 
-## Resultado de esta preparación
+Las pruebas no acreditan conexión con WhatsApp externo, IziPay, bancos, correo ni un hosting productivo. Esas integraciones siguen identificadas en docs/negocio/PENDIENTES.md. El build heredado del landing conserva una advertencia de tamaño de bundle.
 
-- TypeScript y build: landing, frontend y demo correctos.
-- Dominio: 8 pruebas correctas.
-- Backend: 2 pruebas correctas con Python 3.12.
-- Navegador: 35 comprobaciones, 0 excepciones JavaScript. Publicación web, bot, ofertas, chat, tres confirmaciones y pagos; 21 rutas/roles a 390 px.
-- ZIP: index.html y assets en raíz, sin documentos ni datos locales.
-- Auditoría npm tras actualizar Vite: sin vulnerabilidades reportadas.
+Resultado final del código: 10 pruebas de dominio/tutorial, 15 pruebas de servicio Python y 31 comprobaciones de navegador correctas. TypeScript y compilación de las tres aplicaciones correctos. Las verificaciones usan cuentas y base aisladas de QA, no credenciales de producción.
 
-La compilación del landing heredado advierte de un bundle superior a 500 kB; optimizar por rutas puede hacerse en una tarea aparte. La base backend solo demuestra health y estado, no procesos productivos.
+Para reproducir el navegador: definir DATABASE_PATH y MEDIA_PATH dentro de .local/qa-business, definir AGROVIO_QA_PASSWORD y ejecutar backend/.venv/Scripts/python.exe scripts/prepare-qa.py. Arrancar Python con esas variables, preview del landing en 5180 y Chrome en 9335; después node scripts/verify-separated.mjs con la misma contraseña. Esperar un minuto entre ejecuciones repetidas para respetar el límite de acceso. No usar estas cuentas fuera de QA.
+

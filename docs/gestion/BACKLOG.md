@@ -23,3 +23,7 @@ Estados: LISTO = base operativa en este repositorio; POR HACER = implementación
 | OPS-01 | P1 | Persona 3 | Entornos de producción | BE-01 + FE-02 | Hosting Python, Netlify, CORS y variables por entorno | POR HACER |
 
 Reglas de la demo probadas en `packages/domain/tests`. El contrato productivo no está implementado por existir un simulador equivalente.
+
+## Actualización 31/10/2026
+
+BE-01 a BE-05 cuentan con implementación inicial en SQLite y pruebas de permisos, publicaciones, créditos, ofertas y tratos. FE-02 ya consume la API sin fallback simulado. CHAT-01 tiene persistencia y aislamiento por comprador. INT-02 tiene motor guiado, pero el canal WhatsApp externo sigue pendiente. PAY-02 registra pagos manuales; IziPay no está habilitado. La recuperación de contraseña, vínculo de empresas, proveedores externos, operación multinstancia y pruebas productivas siguen pendientes según docs/negocio/PENDIENTES.md. QA incluye tutorial y recorrido real por cuentas.

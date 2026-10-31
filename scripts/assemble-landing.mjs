@@ -8,3 +8,5 @@ for(const [app,mount]of [['frontend','portal'],['demo','demo']]){
  fs.cpSync(source,target,{recursive:true});
 }
 console.log('Landing preparado con /portal/ y /demo/. Publicar apps/landing/dist.');
+
+if(process.env.API_PROXY_URL){const url=new URL(process.env.API_PROXY_URL);if(url.protocol!=='https:'||url.username||url.password)throw Error('API_PROXY_URL debe ser un origen HTTPS sin credenciales.');const base=url.href.replace(/\/$/,'');fs.writeFileSync(path.join(landing,'_redirects'),'/api/* '+base+'/api/:splat 200\n/media/* '+base+'/media/:splat 200\n');}

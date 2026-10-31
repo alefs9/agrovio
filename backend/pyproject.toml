@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agrovio-backend"
-version = "0.1.0"
-description = "Base de API Python para el portal Agrovio; módulos de negocio pendientes"
+version = "0.2.0"
+description = "Portal Agrovio: identidad, publicaciones, negociación, conexiones, chat y pagos manuales"
 requires-python = ">=3.10"
 dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1"]
 

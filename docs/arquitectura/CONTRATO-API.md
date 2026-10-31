@@ -1,25 +1,17 @@
-# Contrato inicial de API
+# Contrato del portal
 
-## Implementado
+La fuente de verdad es `backend/app/api/portal.py` y su OpenAPI generado en `docs/arquitectura/openapi.json`. Las rutas de negocio ya no son una lista de propuestas: están implementadas con sesiones, permisos y persistencia.
 
-`GET /health` → 200 `{ "status": "ok", "service": "agrovio-api" }`.
+- Identidad: /api/v1/auth/register, /login, /logout; perfil PATCH /api/v1/me.
+- Datos autorizados de la cuenta: GET /api/v1/state.
+- Publicaciones: POST /api/v1/listings, PATCH /api/v1/listings/{id}, POST /cancel y /review.
+- Conexiones/guardados: POST /api/v1/listings/{id}/connection y /saved.
+- Ofertas: POST /api/v1/listings/{id}/offers; respuesta POST /api/v1/offers/{id}/response.
+- Chat: POST /api/v1/listings/{id}/messages; los mensajes de cada comprador están separados.
+- Tratos: POST /api/v1/deals/{id}/confirmations, /outside, /payments y /ratings.
+- Administración: POST /api/v1/admin/users/{id}/status y /plan; GET /api/v1/admin/audit.
+- Asistente: POST /api/v1/whatsapp/sessions y /{id}/answers; es el motor persistente, no el canal externo.
 
-`GET /api/v1/status` → 200 con `stage: scaffold`, `business_api_ready: false` y todas las integraciones en falso. OpenAPI real: `/openapi.json` del backend.
+Errores de entrada: 422; sesión ausente o vencida: 401; acceso no autorizado: 403; recurso ausente: 404; transición incompatible o recurso agotado: 409; límite de acceso: 429. La cookie es HttpOnly y las peticiones modificadoras con Origin no permitido se rechazan.
 
-## Propuesta para acordar, todavía no implementada
-
-| Módulo | Rutas orientativas | Restricciones |
-| --- | --- | --- |
-| Identidad | POST /api/v1/auth/login, GET /api/v1/me | Decidir proveedor de identidad antes de implementar |
-| Publicaciones | GET/POST /api/v1/listings, PATCH /api/v1/listings/{id} | Crear pendiente de revisión; edición 24 h; dueño autorizado |
-| Moderación | POST /api/v1/listings/{id}/review | Administrador; auditoría |
-| Conexión | POST /api/v1/listings/{id}/connection | Débito atómico e idempotente por comprador y publicación |
-| Ofertas | POST /api/v1/listings/{id}/offers, PATCH /api/v1/offers/{id} | Volumen válido; historial; sin débito de crédito |
-| Tratos | POST /api/v1/deals/{id}/confirmations | Orden de roles y condiciones congeladas |
-| Pagos | POST /api/v1/deals/{id}/payment-events | Solo administración; primero ingreso, luego liberación |
-| Chat | GET/POST /api/v1/conversations/{id}/messages | Autorización y desbloqueo |
-| WhatsApp | Webhook del proveedor por definir | Verificar firma, cuenta vinculada e idempotencia |
-
-Al concretar cada ruta, añadir esquema de entrada/salida, códigos 400/401/403/404/409/422, paginación y pruebas en el OpenAPI generado. No implementar estas rutas devolviendo éxito ficticio.
-
-El frontend y demo usan ahora el simulador local `packages/domain`; no llaman a estas rutas. La UI compartida debe recibir un adaptador real cuando las rutas estén listas. El backend será la autoridad de permisos, fechas, cupos y dinero; nunca confiar en `role`, saldos o totales enviados por el navegador.
+IziPay, WhatsApp externo y transferencias automáticas requieren configuración y validación adicional: ver docs/negocio/PENDIENTES.md.
