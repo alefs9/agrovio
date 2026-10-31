@@ -1,6 +1,6 @@
 [build]
   command = "npm run build:landing"
-  publish = "apps/landing/dist"
+  publish = "landing/dist"
 
 [build.environment]
   NODE_VERSION = "24"

@@ -1,3 +1,4 @@
+import { frontendEntry } from '../../config/destinations';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowRight, ChevronRight } from 'lucide-react';
@@ -90,23 +91,23 @@ export const Navbar: React.FC = () => {
 
           {/* 3. DESKTOP CTA PRINCIPAL DESTACADO EN VERDE (Intacto) */}
           <div className="hidden md:flex items-center gap-4">
-            <Link
-              to="/comenzar"
+            <a
+              href={frontendEntry()}
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-bold text-sm text-white bg-agrovio-gradient hover:opacity-95 shadow-lg shadow-emerald-800/20 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200"
             >
               <span>Ingresar a la plataforma</span>
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </a>
           </div>
 
           {/* 4. MOBILE RIGHT: Botón destacado + Menú hamburguesa (Intacto) */}
           <div className="flex md:hidden items-center gap-2.5">
-            <Link
-              to="/comenzar"
+            <a
+              href={frontendEntry()}
               className="inline-flex items-center justify-center px-4 py-2 rounded-full text-xs font-bold text-white bg-agrovio-gradient shadow-md"
             >
               Ingresar
-            </Link>
+            </a>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -199,14 +200,14 @@ export const Navbar: React.FC = () => {
           </div>
 
           <div className="pt-4">
-            <Link
-              to="/comenzar"
+            <a
+              href={frontendEntry()}
               onClick={() => setMobileMenuOpen(false)}
               className="w-full inline-flex items-center justify-center py-3.5 rounded-xl font-bold bg-agrovio-gradient text-white text-center shadow-lg gap-2"
             >
               <span>Ingresar a la plataforma</span>
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </a>
           </div>
         </div>
       )}

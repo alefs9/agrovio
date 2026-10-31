@@ -1,3 +1,4 @@
+import { frontendEntry } from '../../config/destinations';
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Leaf, Mail, Phone, MapPin, ShieldCheck } from 'lucide-react';
@@ -74,9 +75,9 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/comenzar" className="hover:text-agrovio-medium hover:translate-x-1 inline-block transition-all duration-150">
+                <a href={frontendEntry()} className="hover:text-agrovio-medium hover:translate-x-1 inline-block transition-all duration-150">
                   Ingresar a la plataforma
-                </Link>
+                </a>
               </li>
             </ul>
           </div>

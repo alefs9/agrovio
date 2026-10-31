@@ -1,0 +1,2 @@
+import {spawn} from 'node:child_process';import fs from 'node:fs';import path from 'node:path';
+const python=path.resolve(process.platform==='win32'?'backend/.venv/Scripts/python.exe':'backend/.venv/bin/python');if(!fs.existsSync(python))throw Error('Crea el entorno Python siguiendo backend/README.md');const child=spawn(python,['-m','uvicorn','app.main:app','--app-dir','backend','--host','127.0.0.1','--port','8000','--reload'],{stdio:'inherit'});child.on('exit',code=>process.exit(code||0));process.on('SIGINT',()=>child.kill('SIGINT'));

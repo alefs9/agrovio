@@ -6,3 +6,5 @@ button svg,a svg{flex-shrink:0;width:19px;height:19px}.role-picker{margin-left:a
 
 /* Enlaces con la misma superficie y área táctil que los botones. */
 a.btn{padding:11px 16px;border:1px solid var(--line);background:white}a.btn.primary{background:var(--forest);border-color:var(--forest);color:white}a.btn.light{background:var(--yellow);border-color:transparent}a.btn.text-btn{padding-left:0;border:0;background:transparent}.product-bottom a.btn{font-size:12px;min-height:40px}
+
+.live-access{min-height:100vh;padding:35px 18px;background:#f1f5ec}.access-brand{font-size:32px;font-weight:750;color:#285c48;letter-spacing:-1px}.form-error{color:#9d3c2e;font-size:14px}.saving-status{position:fixed;top:15px;left:50%;transform:translateX(-50%);z-index:60;padding:9px 20px;background:#285c48;color:white;border-radius:20px;font-size:12px}.role-picker>button{font-size:12px}

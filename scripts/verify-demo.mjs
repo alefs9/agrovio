@@ -13,7 +13,7 @@ async function input(selector,value){await js(`(()=>{const e=document.querySelec
 const state=()=>`JSON.parse(localStorage.getItem('agrovio-react-demo-v1'))`;
 async function role(value){await input('select[aria-label="Cambiar perfil"]',value);}
 await call('Runtime.enable');await call('Page.enable');await call('Emulation.setDeviceMetricsOverride',{width:1440,height:1050,deviceScaleFactor:1,mobile:false});
-await call('Page.navigate',{url:'http://127.0.0.1:5174/'});await new Promise(r=>setTimeout(r,800));await js("localStorage.removeItem('agrovio-react-demo-v1');location.reload()");await new Promise(r=>setTimeout(r,700));
+await call('Page.navigate',{url:'http://127.0.0.1:5174/?manual=1'});await new Promise(r=>setTimeout(r,800));await js("localStorage.removeItem('agrovio-react-demo-v1');location.reload()");await new Promise(r=>setTimeout(r,700));
 await check('!!document.querySelector("#root .site-header")','React monta navegación superior');
 await check('document.querySelectorAll(".product").length===3','Comprador ve productos publicados');
 await check('[...document.images].every(i=>i.complete&&i.naturalWidth>0)','Recursos visuales cargan');

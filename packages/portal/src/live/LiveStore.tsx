@@ -1,0 +1,21 @@
+import {useCallback,useEffect,useRef,useState,type ReactNode,type FormEvent} from 'react';
+import type {Action,State} from '@agrovio/domain';
+import {StoreContext} from '../store';import {loadState,perform,request,ServiceError} from './api';
+
+export function LiveStore({children}:{children:ReactNode}){
+ const [state,setState]=useState<State|null>(null),[phase,setPhase]=useState<'loading'|'login'|'ready'|'error'>('loading'),[notice,notify]=useState(''),[busy,setBusy]=useState(false);const serial=useRef(0);
+ const refresh=useCallback(async()=>{const id=++serial.current;try{const next=await loadState();if(id===serial.current){setState(next);setPhase('ready');}}catch(e){if(id!==serial.current)return;if(e instanceof ServiceError&&e.status===401){setState(null);setPhase('login');}else{setPhase('error');notify(e instanceof Error?e.message:'No se pudo abrir el portal.');}}},[]);
+ useEffect(()=>{void refresh();},[refresh]);
+ useEffect(()=>{if(phase!=='ready'||busy)return;const timer=setInterval(()=>{void refresh();},5000);return()=>clearInterval(timer);},[phase,busy,refresh]);
+ useEffect(()=>{if(!notice)return;const timer=setTimeout(()=>notify(''),5000);return()=>clearTimeout(timer);},[notice]);
+ async function act(action:Action){if(!state||busy)return false;setBusy(true);try{await perform(action,state);await refresh();notify('Cambios guardados.');return true;}catch(e){notify(e instanceof Error?e.message:'No se pudo guardar.');return false;}finally{setBusy(false);}}
+ async function logout(){try{await request('/auth/logout',{method:'POST',body:'{}'});setState(null);setPhase('login');}catch{notify('No pudimos cerrar tu sesión. Revisa la conexión e inténtalo de nuevo.');}}
+ if(phase==='loading')return <div className="card login-card"><h1>Abriendo Agrovio…</h1></div>;
+ if(phase==='error')return <section className="card login-card"><h1>No pudimos abrir tu espacio</h1><p>{notice||'Comprueba tu conexión e inténtalo de nuevo.'}</p><button className="btn primary" onClick={()=>void refresh()}>Reintentar</button><a href="/">Volver al inicio</a></section>;
+ if(phase==='login'||!state)return <Access onSuccess={refresh}/>;
+ return <StoreContext.Provider value={{state,act,notice,notify,reset:()=>{},preview:()=>{},refresh,logout,live:true,busy}}>{children}</StoreContext.Provider>;
+}
+
+function Access({onSuccess}:{onSuccess:()=>Promise<void>}){const [register,setRegister]=useState(false),[error,setError]=useState(''),[busy,setBusy]=useState(false);async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();setBusy(true);setError('');const form=new FormData(e.currentTarget);const data=Object.fromEntries(form.entries());try{await request(register?'/auth/register':'/auth/login',{method:'POST',body:JSON.stringify(data)});await onSuccess();if(window.location.hash.startsWith('#/ingreso'))window.location.hash='/';}catch(e){setError(e instanceof Error?e.message:'No se pudo acceder.');}finally{setBusy(false);}}
+ return <main className="live-access"><section className="card login-card"><span className="access-brand">agrovio</span><h1>{register?'Crea tu cuenta':'Bienvenido a tu espacio'}</h1><p>{register?'Registra tu negocio para empezar a conectar.':'Ingresa con tu correo y contraseña.'}</p><form className="stack" onSubmit={submit}>{register&&<><label>Nombre completo<input name="name" minLength={2} maxLength={100} required autoComplete="name"/></label><label>Empresa<input name="company" minLength={2} maxLength={150} required autoComplete="organization"/></label><label>¿Qué quieres hacer?<select name="role"><option value="comprador">Comprar productos</option><option value="proveedor">Vender productos</option></select></label></>}<label>Correo<input name="email" type="email" required autoComplete="email"/></label><label>Contraseña<input name="password" type="password" minLength={register?10:1} maxLength={256} required autoComplete={register?'new-password':'current-password'}/>{register&&<small>Usa al menos 10 caracteres.</small>}</label>{error&&<p className="form-error" role="alert">{error}</p>}<button className="btn primary" disabled={busy}>{busy?'Espera un momento…':register?'Crear cuenta':'Ingresar'}</button></form><button className="btn text-btn" onClick={()=>{setRegister(!register);setError('');}}>{register?'Ya tengo una cuenta':'Quiero registrarme'}</button></section></main>;
+}

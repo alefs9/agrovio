@@ -22,9 +22,9 @@ await check('document.querySelector(".agrovio-floating-demo").getBoundingClientR
 await call('Emulation.setDeviceMetricsOverride',{width:1440,height:1050,deviceScaleFactor:1,mobile:false});
 await click('Ingresar a la plataforma');await new Promise(r=>setTimeout(r,600));
 await check('location.pathname==="/portal/"&&location.hash.startsWith("#/ingreso")','Ingreso redirige al frontend del repositorio');
-await check('document.querySelector(".environment-bar").textContent.includes("Frontend en desarrollo")','Frontend correcto cargado');
+await check('!!document.querySelector(".live-access form")','Frontend correcto cargado');
 await check('[...document.images].every(i=>i.complete&&i.naturalWidth>0)','Imágenes del frontend cargan bajo /portal/');
-await call('Page.navigate',{url:'http://127.0.0.1:5180/demo/'});await new Promise(r=>setTimeout(r,800));await js("localStorage.removeItem('agrovio-react-demo-v1');location.reload()");await new Promise(r=>setTimeout(r,700));
+await call('Page.navigate',{url:'http://127.0.0.1:5180/demo/?manual=1'});await new Promise(r=>setTimeout(r,800));await js("localStorage.removeItem('agrovio-react-demo-v1');location.reload()");await new Promise(r=>setTimeout(r,700));
 await check('!!document.querySelector("#root .site-header")','React monta navegación superior');
 await check('document.querySelectorAll(".product").length===3','Comprador ve productos publicados');
 await check('[...document.images].every(i=>i.complete&&i.naturalWidth>0)','Recursos visuales cargan');

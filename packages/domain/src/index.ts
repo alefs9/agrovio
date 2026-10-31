@@ -1,10 +1,10 @@
 export type Role = 'comprador' | 'proveedor' | 'admin';
-export type Status = 'En revisión' | 'Publicada' | 'Requiere corrección' | 'Cancelada';
-export interface Listing { id: string; owner: string; name: string; category: string; type: 'cosecha' | 'industrial'; zone: string; quantity: number; price: number; photo: string; status: Status; createdAt: string; publishedAt?: string; }
+export type Status = 'Eliminada' | 'En revisión' | 'Publicada' | 'Requiere corrección' | 'Cancelada';
+export interface Listing { id: string; owner: string; name: string; category: string; type: 'cosecha' | 'industrial'; zone: string; quantity: number; price: number; photo: string; status: Status; createdAt: string; publishedAt?: string; contact?:{name:string;email:string;phone:string}|null; }
 export interface Offer {id:string;listingId:string;buyer:string;quantity:number;price:number;note:string;status:'Pendiente'|'Aceptada'|'Rechazada'|'Contraoferta';}
 export interface Deal {id:string;listingId:string;buyer:string;quantity:number;price:number;step:0|1|2|3;payment:0|1|2;outside:boolean;rating?:number;}
-export interface Message {id:string;listingId:string;role:Role;text:string;at:string;}
-export interface State {version:1;role:Role;credits:number;saved:string[];connections:string[];listings:Listing[];offers:Offer[];deals:Deal[];messages:Message[];usedSlots:number;slotLimit:number;users:{id:string;name:string;active:boolean}[];profile:{name:string;company:string;email:string};}
+export interface Message {id:string;listingId:string;role:Role;text:string;at:string;buyerId?:string;}
+export interface State {currentUserId?:string;subscription?:{name:string;active:boolean;expires:string};conversations?:{listingId:string;buyerId:string;buyerName:string}[];version:1;role:Role;credits:number;saved:string[];connections:string[];listings:Listing[];offers:Offer[];deals:Deal[];messages:Message[];usedSlots:number;slotLimit:number;users:{id:string;name:string;active:boolean;role?:Role;email?:string}[];profile:{name:string;company:string;email:string;phone?:string};}
 export type Action =
  | {type:'role';role:Role} | {type:'save';id:string} | {type:'connect';id:string}
  | {type:'publish';listing:Listing} | {type:'edit';id:string;changes:Pick<Listing,'name'|'price'|'quantity'|'zone'>;now?:string}
